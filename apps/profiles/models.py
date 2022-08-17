@@ -8,3 +8,9 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=100, null=True)
     phone = PhoneNumberField(null=True)
     about = models.CharField(max_length=500, null=True)
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: {self.id}>"
+
+    def __str__(self):
+        return self.__repr__()
