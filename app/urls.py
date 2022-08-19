@@ -18,12 +18,13 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import profile_index
 
 urlpatterns = [
     # path("", )
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("profiles/", include("apps.profiles.urls")),
+    path("profile/", profile_index, name="profile-index"),
     path('avatar/', include('avatar.urls')),
 ]
 
