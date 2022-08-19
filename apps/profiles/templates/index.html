@@ -7,16 +7,43 @@
         <title>Profile</title>
     </head>
     <body>
-        {% avatar user %}<br>
-        <a href="{% url 'avatar_change' %}">Change your avatar</a><br>
-        <br>
+        <p><a href="{% url 'logout' %}">Log Out</a></p>
 
-        Hello, {{ user.username }}!<br>
-        {{ user.email }}<br>
-        {{user.userprofile.phone }}<br>
-        {{ user.userprofile.name }}<br>
-        {{ user.userprofile.about }}<br>
-        {{ user.last_login }}<br>
-        {{ user.date_joined }}<br>
+        <div class="container-fluid h-100 p-4" style="background-color: #EEEEEE;">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="mb-4 p-3 bg-light rounded-3">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="#" class="text-decoration-none">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                User Profile
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            {% avatar user 150 class="rounded-circle img-fluid" %}
+                            <h5 class="m-3">{{ user.userprofile.name }}</h5>
+                            <p class="mb-1">{{ user.userprofile.about }}</p>
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-lg-0"></div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card h-50 mb-4"></div>
+                    <div class="bg-secondary h-50 row">
+                        <div class="col bg-info"></div>
+                        <div class="col bg-info bg-opacity-50"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>
