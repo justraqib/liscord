@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect, render
 
 from app.models import Channel, Message, Server
-
+from app.forms import ServerForm
 
 @login_required
 def profile_index(request):
@@ -17,6 +17,7 @@ def lobby_index(request):
     ctx = {
         "servers": Server.objects.all(),
         "user": request.user,
+        "server_form": ServerForm(),
     }
     template_name = "lobby/index.html"
     return render(request, template_name, ctx)
@@ -29,6 +30,7 @@ def server_view(request, server_id):
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "user": request.user,
+        "server_form": ServerForm(),
     }
     template_name = "lobby/server.html"
     return render(request, template_name, ctx)
@@ -48,16 +50,18 @@ def channel_view(request, channel_id):
         "selected_channel": selected_channel,
         "messages": Message.objects.filter(channel=selected_channel),
         "user": request.user,
+        "server_form": ServerForm(),
     }
     template_name = "lobby/channel.html"
     return render(request, template_name, ctx)
 
 @login_required
 def create_server(request):
-    name = request.POST.get("name")
-    logo = request.FILES.get("logo")
-    Server.objects.create(name=name, logo=logo, created_by=request.user)
-
+    form = ServerForm(request.POST)
+    if form.is_valid():
+        name = form.cleaned_data["name"]
+        logo = form.cleaned_data["logo"]
+        Server.objects.create(name=name, logo=logo, created_by=request.user)
     next_page = request.POST.get("currentPageUrl")
     return HttpResponseRedirect(next_page)
 
