@@ -60,3 +60,12 @@ def create_server(request):
 
     next_page = request.POST.get("currentPageUrl")
     return HttpResponseRedirect(next_page)
+
+@login_required
+def create_channel(request):
+    name = request.POST.get("name")
+    server_id = request.POST.get("selectedServerId")
+    Channel.objects.create(name=name, created_by=request.user, server_id=server_id)
+
+    next_page = request.POST.get("currentPageUrl")
+    return HttpResponseRedirect(next_page)
