@@ -12,8 +12,9 @@
     <script src="https://kit.fontawesome.com/2321307fd9.js" crossorigin="anonymous"></script>
     <title>Document</title>
     <style>
-        .server-list {
+        .server-icon {
             width: 56px;
+            height: 56px;
         }
     </style>
 </head>
@@ -22,19 +23,26 @@
     <div class="bg-dark container-fluid vh-100">
         <div class="row h-100">
             <div class="col-auto px-1 bg-light border d-flex flex-column">
-                <ul class="list-unstyled server-list h-100">
+                <ul class="list-unstyled h-100">
                     {% for server in servers %}
                     <li class="my-2">
                         <a href="{% url 'server-view' server.id %}">
                             <img src="{{ server.logo.url }}"
-                                alt="{{ server.name }}" class="img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
+                                alt="{{ server.name }}" class="server-icon img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
                         </a>
                     </li>
                     {% endfor %}
+                    <li class="my-2">
+                        <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addServerModal">
+                            <div class="server-icon align-items-center border d-flex h3 justify-content-center rounded-circle">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
-                <a href="{% url 'profile-index' %}" class="d-block server-list">
+                <a href="{% url 'profile-index' %}" class="d-block">
                     <img src="{% avatar_url user 56 %}"
-                        alt="{{ user.username }}" class="img-thumbnail rounded-circle">
+                        alt="{{ user.username }}" class="server-icon img-thumbnail rounded-circle">
                 </a>
         </div>
             {% block channelbar %}
@@ -60,5 +68,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Start add server modal -->
+    <div class="modal fade" id="addServerModal" tabindex="-1" aria-labelledby="addServerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{% url 'create-server' %}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addServerModalLabel">Create server</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <input type="hidden" name="currentPageUrl" value="{{ request.path }}">
+
+                        <div class="mb-3">
+                            <label for="serverName" class="form-label">Server name</label>
+                            <input type="text" class="form-control" id="serverName" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="logoFile" class="form-label">Logo</label>
+                            <input class="form-control" type="file" accept="image/*" id="logoFile" name="logo">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End add server modal -->
+
 </body>
 </html>
