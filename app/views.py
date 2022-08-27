@@ -1,8 +1,25 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import HttpResponseRedirect, render
+from django.contrib.auth import login
 
-from app.models import Channel, Message, Server
-from app.forms import ServerForm
+from app.models import Channel, Message, Server, UserProfile
+from app.forms import RegisterForm, ServerForm
+
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            next_page_url = request.POST.get("nextPageUrl", "/")
+            return HttpResponseRedirect(next_page_url)
+    else:
+        form = RegisterForm()
+
+    ctx = {"form": form}
+    template_name = "registration/register.html"
+    return render(request, template_name, ctx)
 
 @login_required
 def profile_index(request):

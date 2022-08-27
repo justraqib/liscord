@@ -11,12 +11,17 @@
 
   <body>
     <div class="align-items-center d-flex flex-column justify-content-center vh-100">
-      <h2>Log In</h2>
-      <form method="POST">
+      <h2>Register</h2>
+      <form action="{% url 'register' %}" method="POST">
         {% csrf_token %}
+
+        {% if request.GET.next %}
+        <input type="hidden" name="nextPageUrl" value="{{ request.GET.next }}">
+        {% endif %}
+
         {{ form|crispy }}
-        <div class="mb-3">Not a member? <a href="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="text-decoration-none">Register</a></div>
-        <button type="submit" class="btn btn-primary w-100">Log In</button>
+        <div class="mb-3">Already a member? <a href="{% url 'login' %}" class="text-decoration-none">Login</a></div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
       </form>
     </div>
   </body>

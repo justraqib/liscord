@@ -18,7 +18,7 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import create_server, profile_index, lobby_index, channel_view, server_view, create_channel
+from .views import create_server, profile_index, register, lobby_index, channel_view, server_view, create_channel
 
 urlpatterns = [ 
     path("", lobby_index, name="lobby-index"),
@@ -28,6 +28,7 @@ urlpatterns = [
     path("channels/<int:channel_id>", channel_view, name="channel-view"),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/register/", register, name="register"),
     path("profile/", profile_index, name="profile-index"),
     path('avatar/', include('avatar.urls')),
 ]
