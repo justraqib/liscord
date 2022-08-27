@@ -1,0 +1,20 @@
+{% extends "lobby/base.html" %}
+
+{% block content %}
+<ul class="h-100 text-light">
+    {% for message in messages %}
+    <li>
+        {{ message.message }}
+    </li>
+    {% endfor %}
+</ul>
+<form action="{% url 'channel-view' selected_channel.id %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Enter your message" name="message">
+        <button class="btn btn-primary" type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </div>
+</form>
+{% endblock content %}
