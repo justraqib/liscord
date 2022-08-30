@@ -28,7 +28,17 @@ class Server(Base):
     logo = models.ImageField(upload_to="server/")
     header_image = models.ImageField(upload_to="server/", null=True)
     name = models.CharField(max_length=128)
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT)
+    members = models.ManyToManyField(User, related_name="servers_joined", through="ServerMembers")
+
+
+class ServerMembers(Base):
+    server = models.ForeignKey(Server, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = [("server", "user")]
+
 
 class Channel(Base):
     name = models.CharField(max_length=128)

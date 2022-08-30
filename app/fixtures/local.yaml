@@ -64,21 +64,18 @@
   fields:
     logo: server/8_Ball_Pool.webp
     name: 8 Ball Pool
-    created_by: 1
     timestamp: 2022-08-30 15:00:00+00:00
 - model: app.server
   pk: 2
   fields:
     logo: server/coinmaster.png
     name: Coin Master
-    created_by: 1
     timestamp: 2022-08-30 15:00:00+00:00
 - model: app.server
   pk: 3
   fields:
     logo: server/pubg.jpg
     name: PUBG
-    created_by: 2
     timestamp: 2022-08-30 15:00:00+00:00
 
 - model: app.channel
@@ -165,3 +162,25 @@
     server: 3
     created_by: 2
     timestamp: 2022-08-30 15:00:00+00:00
+
+- model: app.servermembers
+  pk: 1
+  fields:
+    timestamp: 2022-08-30 15:00:00+00:00
+    server: 1
+    user: 1
+    is_admin: true
+- model: app.servermembers
+  pk: 2
+  fields:
+    timestamp: 2022-08-30 15:00:00+00:00
+    server: 2
+    user: 1
+    is_admin: true
+- model: app.servermembers
+  pk: 3
+  fields:
+    timestamp: 2022-08-30 15:00:00+00:00
+    server: 3
+    user: 2
+    is_admin: true

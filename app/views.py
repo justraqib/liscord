@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import HttpResponseRedirect, render
 from django.contrib.auth import login
+from django.http import HttpResponse
 
-from app.models import Channel, Message, Server, UserProfile
+from app.models import Channel, Message, Server, ServerMembers
 from app.forms import RegisterForm, ServerForm
 
 def register(request):
@@ -32,7 +32,7 @@ def profile_index(request):
 @login_required
 def lobby_index(request):
     ctx = {
-        "servers": Server.objects.all(),
+        "servers": request.user.servers_joined.all(),
         "user": request.user,
         "server_form": ServerForm(),
     }
@@ -42,8 +42,13 @@ def lobby_index(request):
 @login_required
 def server_view(request, server_id):
     selected_server = Server.objects.get(id=server_id)
+    servers_joined = request.user.servers_joined.all()
+    is_member = servers_joined.filter(id=server_id).exists()
+    if not is_member:
+        return HttpResponse("Error, you don't have the permission to view this server.")
+
     ctx = {
-        "servers": Server.objects.all(),
+        "servers": servers_joined,
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "user": request.user,
@@ -60,8 +65,14 @@ def channel_view(request, channel_id):
 
     selected_channel = Channel.objects.get(id=channel_id)
     selected_server = selected_channel.server
+    servers_joined = request.user.servers_joined.all()
+
+    is_member = servers_joined.filter(id=selected_server.id).exists()
+    if not is_member:
+        return HttpResponse("Error, you don't have the permission to view this server.")
+
     ctx = {
-        "servers": Server.objects.all(),
+        "servers": servers_joined,
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "selected_channel": selected_channel,
@@ -74,11 +85,12 @@ def channel_view(request, channel_id):
 
 @login_required
 def create_server(request):
-    form = ServerForm(request.POST)
+    form = ServerForm(request.POST, request.FILES)
     if form.is_valid():
         name = form.cleaned_data["name"]
         logo = form.cleaned_data["logo"]
-        Server.objects.create(name=name, logo=logo, created_by=request.user)
+        server = Server.objects.create(name=name, logo=logo)
+        ServerMembers.objects.create(server=server, user=request.user, is_admin=True)
     next_page = request.POST.get("currentPageUrl")
     return HttpResponseRedirect(next_page)
 
@@ -86,6 +98,10 @@ def create_server(request):
 def create_channel(request):
     name = request.POST.get("name")
     server_id = request.POST.get("selectedServerId")
+    is_admin = ServerMembers.objects.filter(server_id=server_id, user=request.user, is_admin=True).exists()
+    if not is_admin:
+        return HttpResponse("Error, you don't have the permission to create a channel in this server.")
+
     Channel.objects.create(name=name, created_by=request.user, server_id=server_id)
 
     next_page = request.POST.get("currentPageUrl")
