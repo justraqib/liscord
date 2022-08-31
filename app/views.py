@@ -32,7 +32,8 @@ def profile_index(request):
 @login_required
 def lobby_index(request):
     ctx = {
-        "servers": request.user.servers_joined.all(),
+        "all_servers": Server.objects.all(),
+        "joined_servers": request.user.servers_joined.all(),
         "user": request.user,
         "server_form": ServerForm(),
     }
@@ -48,7 +49,7 @@ def server_view(request, server_id):
         return HttpResponse("Error, you don't have the permission to view this server.")
 
     ctx = {
-        "servers": servers_joined,
+        "joined_servers": servers_joined,
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "user": request.user,
@@ -72,7 +73,7 @@ def channel_view(request, channel_id):
         return HttpResponse("Error, you don't have the permission to view this server.")
 
     ctx = {
-        "servers": servers_joined,
+        "joined_servers": servers_joined,
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "selected_channel": selected_channel,
