@@ -10,11 +10,15 @@
              <img src="{{ server.logo.url }}" class="server-logo img-fluid rounded-circle" alt="{{ server.name }}">
              <div class="card-body text-bg-light">
                 <h5>{{ server.name }}</h5>
-                {% if server in joined_servers %}
-                <a href="#" class="btn btn-danger">Leave Server</a>
-                {% else %}
-                <a href="#" class="btn btn-primary">Join Server</a>
-                {% endif %}
+                <form action="{% url 'lobby-index' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="chosenServer" value="{{ server.id }}">
+                    {% if server in joined_servers %}
+                    <button type="submit" class="btn btn-danger">Leave Server</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-primary">Join Server</button>
+                    {% endif %}
+                </form>
             </div>
           </div>
         </div>
