@@ -29,6 +29,7 @@
         .custom-scrollbar::-webkit-scrollbar-track {
             box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
             border-radius: 10px;
+            margin-bottom: 10px;
             background-color: #F5F5F5;
         }
         .custom-scrollbar::-webkit-scrollbar {
@@ -95,9 +96,7 @@
             </div>
             {% endblock channelbar %}
             <div class="col bg-dark">
-                <div class="vh-100 d-flex flex-column overflow-auto custom-scrollbar">
-                    {% block content %}{% endblock content %}
-                </div>
+                {% block content %}{% endblock content %}
             </div>
         </div>
     </div>
@@ -154,6 +153,9 @@
         </div>
     </div>
     <!-- End add channel modal -->
+
+{% block beforebodyend %}
+{% endblock beforebodyend %}
 
 </body>
 </html>
