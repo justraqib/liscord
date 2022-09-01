@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="vh-100 d-flex flex-column">
+    <div class="col"></div>
     <div class="overflow-auto custom-scrollbar">
-        <ul class="h-100 text-light list-unstyled" id="messageList">
+        <ul class="text-light list-unstyled" id="messageList">
             {% for message in messages %}
             {% include 'lobby/message.html' %}
             {% endfor %}
@@ -23,6 +24,12 @@
 <script>
     var enteredMessage = document.getElementById("enteredMessage");
     var sendMessageBtn = document.getElementById("sendMessage");
+    var messageList = document.getElementById("messageList");
+
+    document.addEventListener("DOMContentLoaded", function(e) {
+        var lastElementIndex = messageList.children.length - 1;
+        messageList.children[lastElementIndex]?.scrollIntoView();
+    })
 
     enteredMessage.addEventListener("keypress", function(e) {
         if (e.keyCode === 13) {
@@ -48,8 +55,8 @@
 
         var body = await response.text();
 
-        var messageList = document.getElementById("messageList");
         messageList.innerHTML += body;
+        messageList.lastChild.scrollIntoView();
     });
 </script>
 {% endblock beforebodyend %}
