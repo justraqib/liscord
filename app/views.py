@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect, render
 from django.contrib.auth import login
 from django.http import HttpResponse
+from app.constants import DEFAULT_CHANNEL_NAME
 
 from app.models import Channel, Message, Server, ServerMembers
 from app.forms import RegisterForm, ServerForm
@@ -42,9 +43,16 @@ def lobby_index(request):
             ServerMembers.objects.filter(**kwargs).delete()
         else:
             ServerMembers.objects.create(**kwargs)
+
+    joined_servers = request.user.servers_joined.all()
+    server_to_first_channel_map = {}
+    for server in joined_servers:
+        server_to_first_channel_map[server.id] = Channel.objects.filter(server=server).first().id
+
     ctx = {
         "all_servers": Server.objects.all(),
-        "joined_servers": request.user.servers_joined.all(),
+        "server_to_first_channel_map": server_to_first_channel_map,
+        "joined_servers": joined_servers,
         "user": request.user,
         "server_form": ServerForm(),
     }
@@ -52,35 +60,22 @@ def lobby_index(request):
     return render(request, template_name, ctx)
 
 @login_required
-def server_view(request, server_id):
-    selected_server = Server.objects.get(id=server_id)
-    servers_joined = request.user.servers_joined.all()
-    is_member = servers_joined.filter(id=server_id).exists()
-    if not is_member:
-        return HttpResponse("Error, you don't have the permission to view this server.")
-
-    ctx = {
-        "joined_servers": servers_joined,
-        "selected_server": selected_server,
-        "channels": Channel.objects.filter(server=selected_server),
-        "user": request.user,
-        "server_form": ServerForm(),
-    }
-    template_name = "lobby/server.html"
-    return render(request, template_name, ctx)
-
-@login_required
 def channel_view(request, channel_id):
     selected_channel = Channel.objects.get(id=channel_id)
     selected_server = selected_channel.server
-    servers_joined = request.user.servers_joined.all()
+    joined_servers = request.user.servers_joined.all()
 
-    is_member = servers_joined.filter(id=selected_server.id).exists()
+    server_to_first_channel_map = {}
+    for server in joined_servers:
+        server_to_first_channel_map[server.id] = Channel.objects.filter(server=server).first().id
+
+    is_member = joined_servers.filter(id=selected_server.id).exists()
     if not is_member:
         return HttpResponse("Error, you don't have the permission to view this server.")
 
     ctx = {
-        "joined_servers": servers_joined,
+        "joined_servers": joined_servers,
+        "server_to_first_channel_map": server_to_first_channel_map,
         "selected_server": selected_server,
         "channels": Channel.objects.filter(server=selected_server),
         "selected_channel": selected_channel,
@@ -98,6 +93,7 @@ def create_server(request):
         name = form.cleaned_data["name"]
         logo = form.cleaned_data["logo"]
         server = Server.objects.create(name=name, logo=logo)
+        Channel.objects.create(server=server, name=DEFAULT_CHANNEL_NAME, created_by=request.user)
         ServerMembers.objects.create(server=server, user=request.user, is_admin=True)
     next_page = request.POST.get("currentPageUrl")
     return HttpResponseRedirect(next_page)
