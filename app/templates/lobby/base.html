@@ -52,14 +52,9 @@
             <div class="col-auto px-1 bg-light border d-flex flex-column">
                 <ul class="list-unstyled h-100">
                     {% for server in joined_servers %}
-                    <li class="my-2">
-                        <a href="{% url 'channel-view' server_to_first_channel_map|get_item:server.id %}">
-                            <img src="{{ server.logo.url }}"
-                                alt="{{ server.name }}" class="server-icon img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
-                        </a>
-                    </li>
+                        {% include 'lobby/server_icon.html' %}
                     {% endfor %}
-                    <li class="my-2">
+                    <li class="my-2" id="add-server-btn">
                         <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addServerModal">
                             <div class="server-icon align-items-center border d-flex h3 justify-content-center rounded-circle">
                                 <i class="fa-solid fa-plus"></i>

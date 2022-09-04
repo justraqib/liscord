@@ -19,11 +19,12 @@ from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 from .views import create_server, profile_index, register, lobby_index, channel_view, create_channel
-from .ajax_views import add_message
+from .ajax_views import add_message, join_leave_server
 
-urlpatterns = [ 
+urlpatterns = [
     path("", lobby_index, name="lobby-index"),
     path("servers/create/", create_server, name="create-server"),
+    path("servers/join-or-leave/", join_leave_server, name="join-or-leave-server"),
     path("channels/create/", create_channel, name="create-channel"),
     path("channels/<int:channel_id>", channel_view, name="channel-view"),
     path("admin/", admin.site.urls),

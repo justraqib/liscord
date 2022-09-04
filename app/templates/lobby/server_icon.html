@@ -1,0 +1,6 @@
+<li class="my-2" id="server-icon-{{ server.id }}">
+    <a href="{% url 'channel-view' server_to_first_channel_map|get_item:server.id %}">
+        <img src="{{ server.logo.url }}"
+            alt="{{ server.name }}" class="server-icon img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
+    </a>
+</li>
