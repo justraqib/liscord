@@ -1,28 +1,36 @@
-# About
+# Overview
 
-Liscord is a (very) lightweight discord clone.
+Liscord is a lightweight clone of Discord that offers similar functionalities in a simpler way.
 
 # Requirements
 
-* Python 3.x
+To run Liscord, you need Python 3.x installed on your system.
 
 # Installation
 
-* git clone https://github.com/raqibahmed/liscord
+Follow these steps to install and run Liscord:
 
-```bash
-pip install -r requirements.txt
-```
-```bash
-pip install phonenumbers
-```
-```bash
-.manage.py runserver
-```
+1. Clone the repository by navigating to the directory of your choice and entering the following command:
 
-# Features implemented so far
+   `git clone https://github.com/raqibahmed/liscord`
 
-* Creation and Joining Servers.
-* Creation of Channels in a Servers.
-* Server Settings (Change name and delete).
-* Channel Settings (Change name and delete).
+2. Install the project's requirements using the following command:
+
+   `pip install -r requirements.txt`
+
+   It's recommended to install the requirements in a virtual environment.
+
+3. To start the Django server, run the following command:
+
+   `./manage.py runserver`
+
+# Features
+
+Liscord currently includes the following features:
+
+* Server creation and joining
+* Channel creation within servers
+* Server settings (name changes and deletion)
+* Channel settings (name changes and deletion)
+* User profiles
+* Adding, editing, and deleting messages in channels
