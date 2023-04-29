@@ -1,0 +1,64 @@
+{% load avatar_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2321307fd9.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        .server-list {
+            width: 56px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-dark container-fluid vh-100">
+        <div class="row h-100">
+            <div class="col-auto px-1 bg-light border d-flex flex-column">
+                <ul class="list-unstyled server-list h-100">
+                    {% for server in servers %}
+                    <li class="my-2">
+                        <a href="{% url 'server-view' server.id %}">
+                            <img src="{{ server.logo.url }}"
+                                alt="{{ server.name }}" class="img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'profile-index' %}" class="d-block server-list">
+                    <img src="{% avatar_url user 56 %}"
+                        alt="{{ user.username }}" class="img-thumbnail rounded-circle">
+                </a>
+        </div>
+            {% block channelbar %}
+            <div class="col-3 p-0 bg-info d-flex flex-column">
+                <div class="card m-3 p-3">{{ selected_server.name }}</div>
+                <hr class="m-0 text-light">
+                <div class="bg-white h-100">
+                    <ul class="list-unstyled mb-0">
+                        {% for channel in channels %}
+                        <li{% if channel.id == selected_channel.id %} class="bg-info"{% endif %}>
+                            <a href="{% url 'channel-view' channel.id %}"
+                               class="d-block px-3 py-1 text-decoration-none {% if channel.id == selected_channel.id %}text-light{% else %}text-dark{% endif %}">
+                                <i class="fa-solid fa-hashtag"></i> {{ channel.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endblock channelbar %}
+            <div class="col d-flex flex-column vh-100">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

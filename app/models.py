@@ -39,3 +39,6 @@ class Message(Base):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
     message = models.TextField(max_length=1024)
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: {self.message[:32]}>"
