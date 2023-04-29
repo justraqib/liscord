@@ -1,5 +1,6 @@
 {% load avatar_tags %}
 {% load crispy_forms_tags %}
+{% load custom_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +53,7 @@
                 <ul class="list-unstyled h-100">
                     {% for server in joined_servers %}
                     <li class="my-2">
-                        <a href="{% url 'server-view' server.id %}">
+                        <a href="{% url 'channel-view' server_to_first_channel_map|get_item:server.id %}">
                             <img src="{{ server.logo.url }}"
                                 alt="{{ server.name }}" class="server-icon img-thumbnail rounded-circle{% if server.id == selected_server.id %} bg-info{% endif %}">
                         </a>

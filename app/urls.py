@@ -18,14 +18,13 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import create_server, profile_index, register, lobby_index, channel_view, server_view, create_channel
+from .views import create_server, profile_index, register, lobby_index, channel_view, create_channel
 from .ajax_views import add_message
 
 urlpatterns = [ 
     path("", lobby_index, name="lobby-index"),
     path("servers/create/", create_server, name="create-server"),
     path("channels/create/", create_channel, name="create-channel"),
-    path("servers/<int:server_id>/", server_view, name="server-view"),
     path("channels/<int:channel_id>", channel_view, name="channel-view"),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
