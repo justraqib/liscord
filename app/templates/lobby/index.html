@@ -3,7 +3,21 @@
 {% block channelbar %}{% endblock channelbar %}
 
 {% block content %}
-    <div class="align-items-center align-self-center d-flex h-100 text-light">
-        Please select a server from the left sidebar.
+    <div class="d-flex flex-wrap py-2 justify-content-start">
+        {% for server in all_servers %}
+        <div class="card mx-4 my-2 px-5 py-3">
+             <div class="text-center">
+             <img src="{{ server.logo.url }}" class="server-logo img-fluid rounded-circle" alt="{{ server.name }}">
+             <div class="card-body text-bg-light">
+                <h5>{{ server.name }}</h5>
+                {% if server in joined_servers %}
+                <a href="#" class="btn btn-danger">Leave Server</a>
+                {% else %}
+                <a href="#" class="btn btn-primary">Join Server</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
     </div>
 {% endblock content %}
