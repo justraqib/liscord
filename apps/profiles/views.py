@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+
+@login_required
 def profile_index(request):
-    # TODO use authenticated user instead of first user
-    user = User.objects.first()
+    user = request.user
     template_name = "index.html"
     ctx = {
         "user": user,
