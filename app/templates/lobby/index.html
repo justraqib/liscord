@@ -3,6 +3,7 @@
 {% block channelbar %}{% endblock channelbar %}
 
 {% block content %}
+<div class="vh-100 d-flex flex-column overflow-auto custom-scrollbar">
     <div class="d-flex flex-wrap py-2 justify-content-start">
         {% for server in all_servers %}
         <div class="card mx-4 my-2 px-5 py-3">
@@ -24,4 +25,5 @@
         </div>
         {% endfor %}
     </div>
+</div>
 {% endblock content %}

@@ -19,6 +19,7 @@ from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 from .views import create_server, profile_index, register, lobby_index, channel_view, server_view, create_channel
+from .ajax_views import add_message
 
 urlpatterns = [ 
     path("", lobby_index, name="lobby-index"),
@@ -30,7 +31,8 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/register/", register, name="register"),
     path("profile/", profile_index, name="profile-index"),
-    path('avatar/', include('avatar.urls')),
+    path("avatar/", include('avatar.urls')),
+    path("messages/add/", add_message, name="add-message"),
 ]
 
 if settings.DEBUG:

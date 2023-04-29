@@ -71,10 +71,6 @@ def server_view(request, server_id):
 
 @login_required
 def channel_view(request, channel_id):
-    if request.method == "POST":
-        message = request.POST.get("message")
-        Message.objects.create(message=message, channel_id=channel_id, created_by=request.user)
-
     selected_channel = Channel.objects.get(id=channel_id)
     selected_server = selected_channel.server
     servers_joined = request.user.servers_joined.all()

@@ -1,20 +1,55 @@
 {% extends "lobby/base.html" %}
 
 {% block content %}
-<ul class="h-100 text-light">
-    {% for message in messages %}
-    <li>
-        {{ message.message }}
-    </li>
-    {% endfor %}
-</ul>
-<form action="{% url 'channel-view' selected_channel.id %}" method="POST">
-    {% csrf_token %}
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Enter your message" name="message">
-        <button class="btn btn-primary" type="submit">
+<div class="vh-100 d-flex flex-column">
+    <div class="overflow-auto custom-scrollbar">
+        <ul class="h-100 text-light list-unstyled" id="messageList">
+            {% for message in messages %}
+            {% include 'lobby/message.html' %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="border-bottom border-1"></div>
+    <div class="input-group my-3">
+        <input id="enteredMessage" type="text" class="form-control" placeholder="Enter your message" name="message" autocomplete="off" required>
+        <button class="btn btn-primary" type="submit" id="sendMessage">
             <i class="fa-solid fa-paper-plane"></i>
         </button>
     </div>
-</form>
+</div>
 {% endblock content %}
+
+{% block beforebodyend %}
+<script>
+    var enteredMessage = document.getElementById("enteredMessage");
+    var sendMessageBtn = document.getElementById("sendMessage");
+
+    enteredMessage.addEventListener("keypress", function(e) {
+        if (e.keyCode === 13) {
+            sendMessageBtn.click();
+            enteredMessage.value = "";
+        }
+    });
+
+    sendMessageBtn.addEventListener("click", async function(e) {
+        e.preventDefault();
+        var msg = enteredMessage.value;
+        url = "{% url 'add-message' %}";
+
+        let formData = new FormData();
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        formData.append('message', msg);
+        formData.append("channelId", {{ selected_channel.id }});
+
+        var response = await fetch(url, {
+            method: "POST",
+            body: formData,
+        });
+
+        var body = await response.text();
+
+        var messageList = document.getElementById("messageList");
+        messageList.innerHTML += body;
+    });
+</script>
+{% endblock beforebodyend %}

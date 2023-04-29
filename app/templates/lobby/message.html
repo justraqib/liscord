@@ -1,0 +1,17 @@
+{% load avatar_tags %}
+
+<li>
+    <div class="row my-3">
+        <div class="col col-auto">
+            <img src="{% avatar_url message.created_by 56 %}"
+                 alt="{{ user.username }}" class="rounded-circle">
+        </div>
+        <div class="col px-0">
+            <div class="mb-0">
+                <h5 class="d-inline text-lowercase">{{ message.created_by.username }}</h5>
+                <span class="text-muted">{{ message.timestamp }}</span>
+            </div>
+            <p>{{ message.message }}</p>
+        </div>
+    </div>
+</li>
