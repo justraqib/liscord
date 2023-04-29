@@ -18,10 +18,11 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import profile_index
+from .views import profile_index, lobby_index, server_view
 
-urlpatterns = [
-    # path("", )
+urlpatterns = [ 
+    path("", lobby_index, name="lobby-index"),
+    path("server/<int:server_id>/", server_view, name="server-view"),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("profile/", profile_index, name="profile-index"),
