@@ -5,7 +5,7 @@ from django.shortcuts import render
 @login_required
 def profile_index(request):
     user = request.user
-    template_name = "index.html"
+    template_name = "profiles/index.html"
     ctx = {
         "user": user,
     }
