@@ -18,12 +18,13 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import profile_index, lobby_index, channel_view, server_view
+from .views import create_server, profile_index, lobby_index, channel_view, server_view
 
 urlpatterns = [ 
     path("", lobby_index, name="lobby-index"),
-    path("server/<int:server_id>/", server_view, name="server-view"),
-    path("channel/<int:channel_id>", channel_view, name="channel-view"),
+    path("servers/create/", create_server, name="create-server"),
+    path("servers/<int:server_id>/", server_view, name="server-view"),
+    path("channels/<int:channel_id>", channel_view, name="channel-view"),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("profile/", profile_index, name="profile-index"),

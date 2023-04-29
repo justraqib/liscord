@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import HttpResponseRedirect, render
 
 from app.models import Channel, Message, Server
 
@@ -51,3 +51,12 @@ def channel_view(request, channel_id):
     }
     template_name = "lobby/channel.html"
     return render(request, template_name, ctx)
+
+@login_required
+def create_server(request):
+    name = request.POST.get("name")
+    logo = request.FILES.get("logo")
+    Server.objects.create(name=name, logo=logo, created_by=request.user)
+
+    next_page = request.POST.get("currentPageUrl")
+    return HttpResponseRedirect(next_page)
