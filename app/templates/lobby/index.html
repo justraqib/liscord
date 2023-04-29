@@ -11,14 +11,11 @@
              <img src="{{ server.logo.url }}" class="server-logo img-fluid rounded-circle" alt="{{ server.name }}">
              <div class="card-body text-bg-light">
                 <h5>{{ server.name }}</h5>
-                <form action="{% url 'lobby-index' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="chosenServer" value="{{ server.id }}">
-                    {% if server in joined_servers %}
-                    <button type="submit" class="btn btn-danger">Leave Server</button>
-                    {% else %}
-                    <button type="submit" class="btn btn-primary">Join Server</button>
-                    {% endif %}
+                {% if server in joined_servers %}
+                <button type="submit" class="join-server-btn btn btn-danger" data-chosen-server="{{ server.id }}">Leave Server</button>
+                {% else %}
+                <button type="submit" class="join-server-btn btn btn-primary" data-chosen-server="{{ server.id }}">Join Server</button>
+                {% endif %}
                 </form>
             </div>
           </div>
@@ -27,3 +24,38 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block beforebodyend %}
+<script>
+    document.querySelectorAll(".join-server-btn").forEach(element => {
+        element.addEventListener("click", async function(e) {
+            const serverId = this.getAttribute("data-chosen-server");
+            const url = "{% url 'join-or-leave-server' %}";
+
+            const formData = new FormData();
+            formData.append('chosenServer', serverId);
+
+            const response = await fetch(url, {
+                method: "POST",
+                body: formData,
+            });
+            const responseBody = await response.text();
+            const statusCode = await response.status;
+
+            if (statusCode == 204) {
+                this.innerHTML = "Join server";
+                this.classList.add("btn-primary");
+                this.classList.remove("btn-danger");
+
+                document.querySelector("#server-icon-" + serverId).remove();
+            } else {
+                document.querySelector("#add-server-btn").outerHTML =
+                        responseBody + document.querySelector("#add-server-btn").outerHTML;
+                this.innerHTML = "Leave server";
+                this.classList.add("btn-danger");
+                this.classList.remove("btn-primary");
+            }
+        })
+    });
+</script>
+{% endblock beforebodyend %}
