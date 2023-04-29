@@ -1,4 +1,5 @@
 {% load avatar_tags %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,15 +88,7 @@
                     <div class="modal-body">
                         {% csrf_token %}
                         <input type="hidden" name="currentPageUrl" value="{{ request.path }}">
-
-                        <div class="mb-3">
-                            <label for="serverName" class="form-label">Server name</label>
-                            <input type="text" class="form-control" id="serverName" name="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="logoFile" class="form-label">Logo</label>
-                            <input class="form-control" type="file" accept="image/*" id="logoFile" name="logo">
-                        </div>
+                        {{ server_form|crispy }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
