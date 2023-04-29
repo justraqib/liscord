@@ -18,7 +18,7 @@ class Base(models.Model):
 
 
 class UserProfile(Base):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     name = models.CharField(max_length=100, null=True)
     phone = PhoneNumberField(null=True)
     about = models.CharField(max_length=500, null=True)

@@ -1,0 +1,167 @@
+- model: auth.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$390000$STGzpXwPqWQdAZVHVhxnNG$t7Pus/0XEGWObnn48899n2IeBbwFOqqSp6fImTX1vxQ=
+    last_login: null
+    is_superuser: true
+    username: admin
+    first_name: ''
+    last_name: ''
+    email: ''
+    is_staff: true
+    is_active: true
+    date_joined: 2022-08-30 15:00:00+00:00
+    groups: []
+    user_permissions: []
+- model: auth.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$390000$STGzpXwPqWQdAZVHVhxnNG$t7Pus/0XEGWObnn48899n2IeBbwFOqqSp6fImTX1vxQ=
+    last_login: null
+    is_superuser: true
+    username: raqib
+    first_name: ''
+    last_name: ''
+    email: ''
+    is_staff: true
+    is_active: true
+    date_joined: 2022-08-30 15:00:00+00:00
+    groups: []
+    user_permissions: []
+
+- model: app.userprofile
+  pk: 1
+  fields:
+    user: 1
+    name: Administrator
+    about: Hello, World! I am the administrator of this website.
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.userprofile
+  pk: 2
+  fields:
+    user: 2
+    name: Raqib Ahmed
+    about: Hi there! I am a student of George College of Management and Science, where I am pursuing BCA.
+    timestamp: 2022-08-30 15:00:00+00:00
+
+- model: avatar.avatar
+  pk: 1
+  fields:
+    user: 1
+    primary: true
+    avatar: avatars/1/nadim-photograph-compressed.jpg
+    date_uploaded: 2022-08-30 15:00:00+00:00
+- model: avatar.avatar
+  pk: 2
+  fields:
+    user: 2
+    primary: true
+    avatar: avatars/2/photograph.jpg
+    date_uploaded: 2022-08-30 15:00:00+00:00
+
+- model: app.server
+  pk: 1
+  fields:
+    logo: server/8_Ball_Pool.webp
+    name: 8 Ball Pool
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.server
+  pk: 2
+  fields:
+    logo: server/coinmaster.png
+    name: Coin Master
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.server
+  pk: 3
+  fields:
+    logo: server/pubg.jpg
+    name: PUBG
+    created_by: 2
+    timestamp: 2022-08-30 15:00:00+00:00
+
+- model: app.channel
+  pk: 1
+  fields:
+    name: general
+    server: 1
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 2
+  fields:
+    name: welcome
+    server: 1
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 3
+  fields:
+    name: tips & tricks
+    server: 1
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 4
+  fields:
+    name: tournaments
+    server: 1
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 5
+  fields:
+    name: general
+    server: 2
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 6
+  fields:
+    name: welcome
+    server: 2
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 7
+  fields:
+    name: tips & tricks
+    server: 2
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 8
+  fields:
+    name: tournaments
+    server: 2
+    created_by: 1
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 9
+  fields:
+    name: general
+    server: 3
+    created_by: 2
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 10
+  fields:
+    name: welcome
+    server: 3
+    created_by: 2
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 11
+  fields:
+    name: tips & tricks
+    server: 3
+    created_by: 2
+    timestamp: 2022-08-30 15:00:00+00:00
+- model: app.channel
+  pk: 12
+  fields:
+    name: tournaments
+    server: 3
+    created_by: 2
+    timestamp: 2022-08-30 15:00:00+00:00
