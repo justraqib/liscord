@@ -31,6 +31,17 @@ def profile_index(request):
 
 @login_required
 def lobby_index(request):
+    if request.method == "POST":
+        chosen_server_id = request.POST.get("chosenServer")
+        kwargs = {
+            "user": request.user,
+            "server_id": chosen_server_id
+        }
+        is_member = ServerMembers.objects.filter(**kwargs).exists()
+        if is_member:
+            ServerMembers.objects.filter(**kwargs).delete()
+        else:
+            ServerMembers.objects.create(**kwargs)
     ctx = {
         "all_servers": Server.objects.all(),
         "joined_servers": request.user.servers_joined.all(),
